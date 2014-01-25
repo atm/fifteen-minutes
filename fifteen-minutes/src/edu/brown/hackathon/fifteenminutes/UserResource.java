@@ -5,12 +5,12 @@ package edu.brown.hackathon.fifteenminutes;
  *  that is sent to the client.
  */
 public class UserResource {
-  
-  private String username;
+ 
+  private int userId;
   private String profilePicture;
 
-  public UserResource(String username, String profilePicture) {
-    this.username = username;
+  public UserResource(int userId, String profilePicture) {
+    this.userId = userId;
     this.profilePicture = profilePicture;
   }
 }
