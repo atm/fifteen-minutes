@@ -19,7 +19,7 @@ public class UserServlet extends HttpServlet {
     String id = req.getParameter("id");
     String accessToken = req.getParameter("access_token");
     Key userKey = KeyFactory.createKey("User", id);
-    Entity user = new Entity("User", userKey);
+    Entity user = new Entity(userKey);
     user.setProperty("access_token", accessToken);
     user.setProperty("user_id", id);
     user.setProperty("rand_number", new Random().nextFloat());
