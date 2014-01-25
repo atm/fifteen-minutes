@@ -14,10 +14,8 @@ import org.json.JSONTokener;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-
-import com.example.fifteenminutes.LoginActivity.ResponseListener;
+import android.util.Log;
 
 public class InstaImpl
 {
@@ -58,7 +56,11 @@ public class InstaImpl
 		mProgressDialog = new ProgressDialog(context);
 		mProgressDialog.setTitle("Please Wait");
 		mProgressDialog.setCancelable(false);
-		
+	}
+	
+	public String getAccessToken()
+	{
+		return mAccessTokenString;
 	}
 	
 	public class InstaAuthDialogListener implements com.example.fifteenminutes.InstaLoginDialog.AuthDialogListener
@@ -107,7 +109,7 @@ public class InstaImpl
 				
 				//Your access token that you can use to make future request
 				mAccessTokenString = jsonObject.getString("access_token");
-				//Log.e(TAG, mAccessTokenString);
+				Log.v("Testing", "Access token: " + mAccessTokenString);
 				
 				//User details like, name, id, tagline, profile pic etc.
 				JSONObject userJsonObject = jsonObject.getJSONObject("user");
@@ -136,7 +138,8 @@ public class InstaImpl
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Void result)
+		{
 			dismissDialog();
 			mAuthAuthenticationListener.onSuccess();
 			super.onPostExecute(result);
@@ -160,23 +163,29 @@ public class InstaImpl
 		public abstract void onFail(String error);
 	}
 	
-	public String streamToString(InputStream is) throws IOException {
+	public String streamToString(InputStream is) throws IOException
+	{
 		String string = "";
 
-		if (is != null) {
+		if (is != null)
+		{
 			StringBuilder stringBuilder = new StringBuilder();
 			String line;
 
-			try {
+			try
+			{
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(is));
 
-				while ((line = reader.readLine()) != null) {
+				while ((line = reader.readLine()) != null)
+				{
 					stringBuilder.append(line);
 				}
 
 				reader.close();
-			} finally {
+			}
+			finally
+			{
 				is.close();
 			}
 

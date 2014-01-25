@@ -15,6 +15,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -52,7 +54,43 @@ public class AreYouFamousActivity extends Activity
         accessToken = previousActivity.getStringExtra(KEY_ACCESS_TOKEN);
         
         new GetUserId().execute();
+        
+//    	Log.v("Testing", profilePictureURL);
+//    	Log.v("Testing", username);
+        
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run()
+            {
+                setViews();
+            }
+        });
     }
+	
+	public void setViews()
+	{
+    	/**
+         * Updating parsed JSON data into ImageView and TextView
+         * */
+        // SessionStore sessionStore = new SessionStore(getApplicationContext());
+    	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
+    	try
+    	{
+    		ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
+    		Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(profilePictureURL).getContent());
+    		i.setImageBitmap(bitmap);
+    	} catch (MalformedURLException e)
+    	{
+    		e.printStackTrace();
+    	}
+    	catch (IOException e)
+    	{
+    		e.printStackTrace();
+    	}
+    	// set text
+        TextView usernameView = (TextView) findViewById(R.id.username);
+        usernameView.setText(username);
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -65,71 +103,11 @@ public class AreYouFamousActivity extends Activity
     /**
      * Async task class to get json by making HTTP call
      * */
-    private class GetUserData extends AsyncTask<String, Void, Void> {
-  
+    private class GetUserId extends AsyncTask<Void, Void, Void>
+    {
         @Override
-        protected Void doInBackground(String ... args) {
-            // Creating service handler class instance
-            json_parser = new JSONParser();
- 
-            // Making a request to url and getting response
-            Log.v("Testing", "accessToken: " + args[0] + " | userId: " + args[1]);
-            String jsonStr = json_parser.getUserInfo(args[0], args[1]);
-            JSONObject jsonObj = null;
-            
-            if (jsonStr != null) 
-    		{
-    			try
-                {
-                    jsonObj = new JSONObject(jsonStr);
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-    			try {
-    				JSONObject userInfo = jsonObj.getJSONObject(KEY_JSON_NODE); // get "data" note
-    				username = userInfo.getString(KEY_USERNAME);
-    				profilePictureURL = userInfo.getString(KEY_PICTURE);
-    				
-    			} catch (JSONException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-            }
-            return null;
-        }
- 
-        @Override
-        protected void onPostExecute(Void result)
+        protected void onPreExecute()
         {
-            /**
-             * Updating parsed JSON data into ImageView and TextView
-             * */
-//          SessionStore sessionStore = new SessionStore(getApplicationContext());
-        	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
-        	try {
-        		  ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
-        		  Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(profilePictureURL).getContent());
-        		  i.setImageBitmap(bitmap); 
-        		} catch (MalformedURLException e) {
-        		  e.printStackTrace();
-        		} catch (IOException e) {
-        		  e.printStackTrace();
-        		}
-        	// set text
-            TextView usernameView = (TextView) findViewById(R.id.username);
-            usernameView.setText(username);
-        }
-    }
-    
-    /**
-     * Async task class to get json by making HTTP call
-     * */
-    private class GetUserId extends AsyncTask<Void, Void, Void> {
- 
-        @Override
-        protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(AreYouFamousActivity.this);
@@ -139,10 +117,11 @@ public class AreYouFamousActivity extends Activity
         }
  
         @Override
-        protected Void doInBackground(Void ... args) {
+        protected Void doInBackground(Void ... args)
+        {
             // Creating service handler class instance
             json_parser = new JSONParser();
- 
+
             // Making a request to url and getting response
             String jsonStr = json_parser.getUserId();
             JSONObject jsonObj = null;
@@ -169,10 +148,11 @@ public class AreYouFamousActivity extends Activity
         }
  
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Void result)
+        {
             super.onPostExecute(result);
             
-            // before closing the dialog, get all the values
+            // get user data with the userId
             new GetUserData().execute(accessToken, userId);
             
             // Dismiss the progress dialog
@@ -181,4 +161,89 @@ public class AreYouFamousActivity extends Activity
         }
  
     }
+    
+    /**
+     * Async task class to get json by making HTTP call
+     * */
+    private class GetUserData extends AsyncTask<String, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(String ... args)
+        {
+            // Creating service handler class instance
+            json_parser = new JSONParser();
+ 
+            // Making a request to url and getting response
+            Log.v("Testing", "accessToken: " + args[0] + " | userId: " + args[1]);
+            String jsonStr = json_parser.getUserInfo(args[0], args[1]);
+            JSONObject jsonObj = null;
+            
+            if (jsonStr != null) 
+    		{
+    			try
+                {
+                    jsonObj = new JSONObject(jsonStr);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+    			try {
+    				JSONObject userInfo = jsonObj.getJSONObject(KEY_JSON_NODE); // get "data" note
+    				username = userInfo.getString(KEY_USERNAME);
+    				
+    				profilePictureURL = userInfo.getString(KEY_PICTURE);
+    				Log.v("Testing", profilePictureURL);
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+            }
+            return null;
+        }
+ 
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            Log.v("Testing", "AreYouFamousActivity onPostExecute");
+//            new SetViews().execute();
+        }
+    }
+//    
+//    /**
+//     * Async task class to get json by making HTTP call
+//     * */
+//    private class SetViews extends AsyncTask<String, Void, Void>
+//    {
+//        @Override
+//        protected Void doInBackground(String ... args)
+//        {
+//        	Log.v("Testing", profilePictureURL);
+//        	Log.v("Testing", username);
+//        	/**
+//             * Updating parsed JSON data into ImageView and TextView
+//             * */
+//            // SessionStore sessionStore = new SessionStore(getApplicationContext());
+//        	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
+//        	try
+//        	{
+//        		ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
+//        		Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(profilePictureURL).getContent());
+//        		i.setImageBitmap(bitmap);
+//        	} catch (MalformedURLException e)
+//        	{
+//        		e.printStackTrace();
+//        	}
+//        	catch (IOException e)
+//        	{
+//        		e.printStackTrace();
+//        	}
+//        	// set text
+//            TextView usernameView = (TextView) findViewById(R.id.username);
+//            usernameView.setText(username);
+//        
+//            return null;
+//        }
+//    }
 }

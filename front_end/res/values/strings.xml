@@ -9,10 +9,10 @@
     <string name="login">Go.</string>
     <string name="logo_description">FifteenMinutes\' super hip logo.</string>
     
-    <string name="instagram_id">eaae27bb723146f2817f91483e21cd23</string> 
-    <string name="instagram_secret">71feae5ed7e94ababc7fe5d27555feee</string>
+    <string name="instagram_id">ef4c1e042c4e41a5a4c18087731d92f8</string> 
+    <string name="instagram_secret">d5bd4738002347bba47ff2ff7d851f2f</string>
     <string name="APP_ID">449882188366752</string>
-    <string name="callbackurl">http://varundroid.blog.com</string>
+    <string name="callbackurl">http://fifteen-minutes.appspot.com/login</string>
     <string name="title_activity_are_you_famous">Who\'s famous!?!?!</string>
     <string name="action_settings">Settings</string>
 

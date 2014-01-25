@@ -13,8 +13,8 @@ public final class R {
     public static final class color {
         public static final int myBlue=0x7f040000;
         public static final int myDarkBlue=0x7f040001;
-        public static final int myDarkTan=0x7f040004;
-        public static final int myTan=0x7f040003;
+        public static final int myLightOrange=0x7f040004;
+        public static final int myOrange=0x7f040003;
         public static final int myWhite=0x7f040002;
     }
     public static final class dimen {

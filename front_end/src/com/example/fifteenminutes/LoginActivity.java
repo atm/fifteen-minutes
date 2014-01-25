@@ -1,13 +1,12 @@
 package com.example.fifteenminutes;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,8 +74,13 @@ public class LoginActivity extends Activity implements OnClickListener
 	public class AuthListener implements com.example.fifteenminutes.InstaImpl.AuthAuthenticationListener
 	{
 		@Override
-		public void onSuccess() {
-			Toast.makeText(LoginActivity.this, "Instagram Authorization Successful", Toast.LENGTH_SHORT).show();
+		public void onSuccess()
+		{
+			Toast.makeText(LoginActivity.this, "Instagram authorization successful", Toast.LENGTH_SHORT).show();
+			
+			accessToken = mInstaImpl.getAccessToken();
+			Log.v("Testing", "Access Token again? " + accessToken);
+			
 			Intent toFame = new Intent(getApplicationContext(), AreYouFamousActivity.class);
 			toFame.putExtra(AreYouFamousActivity.KEY_ACCESS_TOKEN, accessToken);
 	        startActivity(toFame);
@@ -99,9 +103,9 @@ public class LoginActivity extends Activity implements OnClickListener
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			mInstaImpl.dismissDialog();
-			Bundle extras = intent.getExtras();
-			name = extras.getString(EXTRA_NAME);
-			accessToken = extras.getString(EXTRA_ACCESS_TOKEN);
+//			Bundle extras = intent.getExtras();
+//			name = extras.getString(EXTRA_NAME);
+//			accessToken = extras.getString(EXTRA_ACCESS_TOKEN);
 //			final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 //			alertDialog.setTitle("Your Details");
 //			alertDialog.setMessage("Name - " + name + ", Access Token - " + accessToken);

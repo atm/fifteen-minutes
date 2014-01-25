@@ -3,6 +3,6 @@
     <color name="myBlue">#36658c</color>
     <color name="myDarkBlue">#26455f</color>
     <color name="myWhite">#eaeaea</color>
-    <color name="myTan">#dcb35c</color>
-    <color name="myDarkTan">#aa873d</color>
+    <color name="myOrange">#e48b2b</color>
+    <color name="myLightOrange">#f9b86a</color>
 </resources>
