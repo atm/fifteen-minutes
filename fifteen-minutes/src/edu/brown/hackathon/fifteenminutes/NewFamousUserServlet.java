@@ -32,8 +32,17 @@ public class NewFamousUserServlet extends HttpServlet {
       results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1));
     }
     
+    long userId = UserResource.parseUserIdFromEntity(results.get(0));
+    
+    Entity famousUser = new Entity("FamousUser");
+    famousUser.setProperty("user_id", userId);
+    famousUser.setProperty("current_time", System.currentTimeMillis());
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(famousUser);
+    
     resp.setContentType("application/json");
-    UserResource ur = new UserResource(Integer.parseInt((String)results.get(0).getProperty("user_id")));
+    UserResource ur = new UserResource(userId);
     resp.getWriter().println(new Gson().toJson(ur));
   }
 }
