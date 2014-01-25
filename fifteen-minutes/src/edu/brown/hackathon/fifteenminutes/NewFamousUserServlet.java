@@ -54,15 +54,14 @@ public class NewFamousUserServlet extends HttpServlet {
   // TODO(atm): this won't work until we actually have access tokens and real user IDs in the datastore.
   private static void makeFamous(long newFamousUser, long oldFamousUser) throws IOException {
     Query query = new Query("User");
-    query.setFilter(new Query.FilterPredicate("user_id", FilterOperator.NOT_EQUAL, newFamousUser));
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1000));
     System.out.println("====> going to make " + oldFamousUser + " unfamous");
     System.out.println("====> going to make " + newFamousUser + " hella famous");
     for (Entity result : results) {
+      String accessToken = (String) result.getProperty("access_token");
       String unfollowRequestString = "https://api.instagram.com/v1/users/" + oldFamousUser + "/relationship";
       String followRequestString = "https://api.instagram.com/v1/users/" + newFamousUser + "/relationship";
-      String accessToken = (String) result.getProperty("access_token");
       Map<String, String> postParams = new HashMap<String, String>();
       postParams.put("access_token", accessToken);
       postParams.put("action", "unfollow");
