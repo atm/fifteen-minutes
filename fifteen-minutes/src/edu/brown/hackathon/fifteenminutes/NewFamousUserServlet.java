@@ -1,7 +1,9 @@
 package edu.brown.hackathon.fifteenminutes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServlet;
@@ -58,17 +60,15 @@ public class NewFamousUserServlet extends HttpServlet {
     System.out.println("====> going to make " + oldFamousUser + " unfamous");
     System.out.println("====> going to make " + newFamousUser + " hella famous");
     for (Entity result : results) {
+      String unfollowRequestString = "https://api.instagram.com/v1/users/" + oldFamousUser + "/relationship";
+      String followRequestString = "https://api.instagram.com/v1/users/" + newFamousUser + "/relationship";
       String accessToken = (String) result.getProperty("access_token");
-      String unfollowRequestString = "http://api.instagram.com/v1/users/" + oldFamousUser
-          + "/relationship?access_token=" + accessToken
-          + "&ACTION=unfollow";
-      String followRequestString = "http://api.instagram.com/v1/users/" + newFamousUser
-          + "/relationship?access_token=" + accessToken
-          + "&ACTION=follow";
-      System.out.println("====> calling: " + unfollowRequestString);
-      System.out.println("====> calling: " + followRequestString);
-      //HttpUtil.doHttpRequest(unfollowRequestString);
-      //HttpUtil.doHttpRequest(followRequestString);
+      Map<String, String> postParams = new HashMap<String, String>();
+      postParams.put("access_token", accessToken);
+      postParams.put("action", "unfollow");
+      System.out.println("====> unfollow result: " + HttpUtil.doHttpPost(unfollowRequestString, postParams));
+      postParams.put("action", "follow");
+      System.out.println("====> follow result: " + HttpUtil.doHttpPost(followRequestString, postParams));
     }
   }
 }
