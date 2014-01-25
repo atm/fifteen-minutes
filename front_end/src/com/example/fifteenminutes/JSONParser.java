@@ -29,6 +29,7 @@ public class JSONParser
 { 
 	// location of the API for the whole program
 	public static final String API_URL = "http://fifteen-minutes.appspot.com/is_famous";
+	public static final String API_USER_INFO = "https://api.instagram.com/v1/users/USER_ID/?access_token=";
 	
 	static String response = null;
 	public final static int GET = 1;
@@ -41,6 +42,14 @@ public class JSONParser
 	 * @url - url to make request
 	 * @method - http request method
 	 * */
+	public String getUserInfo(String accessToken, String userId)
+	{
+		String user_info_url = API_USER_INFO + accessToken;
+		user_info_url.replaceAll("USER_ID", userId);
+		Log.v("Testing", "User info url: " + user_info_url);
+		return this.makeServiceCall(user_info_url, GET, null);
+	}
+	
 	public String getUserId()
 	{
 		return this.makeServiceCall(API_URL, GET, null);

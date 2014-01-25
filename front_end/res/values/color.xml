@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#36658c</color>
+    <color name="myBlue">#36658c</color>
+    <color name="myDarkBlue">#26455f</color>
     <color name="myWhite">#eaeaea</color>
+    <color name="myTan">#dcb35c</color>
+    <color name="myDarkTan">#aa873d</color>
 </resources>
