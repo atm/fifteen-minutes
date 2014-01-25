@@ -56,13 +56,19 @@ public class LoginServlet extends HttpServlet {
     int idEnd = authRespBody.indexOf("\"", idStart);
     int id = Integer.parseInt(authRespBody.substring(idStart, idEnd));
     
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Key userKey = KeyFactory.createKey("User", id);
+    try {
+      datastore.delete(userKey);
+    } catch (IllegalArgumentException ex) {
+      // do nothing
+    }
+   
     Entity user = new Entity("User", userKey);
     user.setProperty("access_token", token);
     user.setProperty("user_id", id);
     user.setProperty("rand_number", new Random().nextFloat());
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(user);
     
     resp.sendRedirect("/?access_token=" + token);
