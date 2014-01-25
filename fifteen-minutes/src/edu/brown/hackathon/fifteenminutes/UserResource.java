@@ -14,6 +14,11 @@ public class UserResource {
   }
   
   public static long parseUserIdFromEntity(Entity user) {
-    return Long.parseLong((String)user.getProperty("user_id"));
+    Object userId = user.getProperty("user_id");
+    if (userId instanceof Long) {
+      return (Long) userId;
+    } else {
+      return Long.parseLong((String) userId);
+    }
   }
 }

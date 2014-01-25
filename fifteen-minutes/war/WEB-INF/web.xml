@@ -36,6 +36,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>User</servlet-name>
 		<url-pattern>/add_user</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>ClientInfo</servlet-name>
+		<servlet-class>edu.brown.hackathon.fifteenminutes.ClientInfoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientInfo</servlet-name>
+		<url-pattern>/client-info</url-pattern>
+  </servlet-mapping>
+  <servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>edu.brown.hackathon.fifteenminutes.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
