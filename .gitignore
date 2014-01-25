@@ -5,5 +5,9 @@
 *.war
 *.ear
 
+# Eclipse stuff
 fifteen-minutes/.settings
 fifteen-minutes/.classpath
+
+# AppEngine stuff
+fifteen-minutes/war/WEB-INF/appengine-generated/
