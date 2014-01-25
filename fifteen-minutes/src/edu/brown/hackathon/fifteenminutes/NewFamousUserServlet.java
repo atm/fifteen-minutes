@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
 public class NewFamousUserServlet extends HttpServlet {
+  
+  private static final Logger log = Logger.getLogger(NewFamousUserServlet.class.getName());
   
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     
@@ -51,13 +54,12 @@ public class NewFamousUserServlet extends HttpServlet {
     return UserResource.parseUserIdFromEntity(result);
   }
   
-  // TODO(atm): this won't work until we actually have access tokens and real user IDs in the datastore.
   private static void makeFamous(long newFamousUser, long oldFamousUser) throws IOException {
     Query query = new Query("User");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1000));
-    System.out.println("====> going to make " + oldFamousUser + " unfamous");
-    System.out.println("====> going to make " + newFamousUser + " hella famous");
+    log.info("====> going to make " + oldFamousUser + " unfamous");
+    log.info("====> going to make " + newFamousUser + " hella famous");
     for (Entity result : results) {
       String accessToken = (String) result.getProperty("access_token");
       String unfollowRequestString = "https://api.instagram.com/v1/users/" + oldFamousUser + "/relationship";
@@ -65,9 +67,9 @@ public class NewFamousUserServlet extends HttpServlet {
       Map<String, String> postParams = new HashMap<String, String>();
       postParams.put("access_token", accessToken);
       postParams.put("action", "unfollow");
-      System.out.println("====> unfollow result: " + HttpUtil.doHttpPost(unfollowRequestString, postParams));
+      log.info("====> unfollow result: " + HttpUtil.doHttpPost(unfollowRequestString, postParams));
       postParams.put("action", "follow");
-      System.out.println("====> follow result: " + HttpUtil.doHttpPost(followRequestString, postParams));
+      log.info("====> follow result: " + HttpUtil.doHttpPost(followRequestString, postParams));
     }
   }
 }
