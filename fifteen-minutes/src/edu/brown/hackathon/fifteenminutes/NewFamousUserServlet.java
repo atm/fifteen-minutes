@@ -18,7 +18,22 @@ import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
 public class NewFamousUserServlet extends HttpServlet {
+  
+  private static void bootstrapClientInfo() {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
+    Query query = new Query("ClientInfo");
+    if (datastore.prepare(query).countEntities(FetchOptions.Builder.withLimit(1000)) == 0) {
+      Entity bootstrapClientInfo = new Entity("ClientInfo");
+      bootstrapClientInfo.setProperty("client_id", "boot");
+      bootstrapClientInfo.setProperty("client_secret", "strap");
+      datastore.put(bootstrapClientInfo);
+    }
+  }
+  
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    
+    bootstrapClientInfo();
     
     long oldFamousUser = IsFamousServlet.getUserIdOfFamousUser();
     long newFamousUser = selectRandomUserId(oldFamousUser);
