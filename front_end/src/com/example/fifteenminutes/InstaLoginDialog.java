@@ -60,8 +60,8 @@ public class InstaLoginDialog extends Dialog
 		linearLayout.addView(textView);
 		
 		webView = new WebView(getContext());
-		webView.setVerticalScrollBarEnabled(false);
-		webView.setHorizontalScrollBarEnabled(false);
+		webView.setVerticalScrollBarEnabled(true);
+		webView.setHorizontalScrollBarEnabled(true);
 		webView.setWebViewClient(new AuthWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setSavePassword(false);

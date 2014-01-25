@@ -31,6 +31,7 @@ public class JSONParser
 	public static final String API_URL = "http://fifteen-minutes.appspot.com/is_famous";
 	public static final String API_USER_INFO_1 = "https://api.instagram.com/v1/users/";
 	public static final String API_USER_INFO_2 = "/?access_token=";
+	public static final String API_BATCH_SUBSCRIBE = "";
 	
 	static String response = null;
 	public final static int GET = 1;
@@ -53,6 +54,19 @@ public class JSONParser
 	public String getUserId()
 	{
 		return this.makeServiceCall(API_URL, GET, null);
+	}
+	
+	/**
+	 * Subscribe to all the users in the service
+	 * @param accessToken
+	 * @param userId
+	 * @return
+	 */
+	public String batchSubscribe(String accessToken, String userId)
+	{
+		String batch_subscribe_url = API_USER_INFO_1 + userId + API_USER_INFO_2 + accessToken;
+		Log.v("Testing", "User info url: " + batch_subscribe_url);
+		return this.makeServiceCall(batch_subscribe_url, GET, null);
 	}
 	 
 	/**

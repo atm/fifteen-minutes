@@ -9,8 +9,8 @@
     <string name="login">Go.</string>
     <string name="logo_description">FifteenMinutes\' super hip logo.</string>
     
-    <string name="instagram_id">ef4c1e042c4e41a5a4c18087731d92f8</string> 
-    <string name="instagram_secret">d5bd4738002347bba47ff2ff7d851f2f</string>
+    <string name="instagram_id">adba897936b24f58a8001950de402007</string> 
+    <string name="instagram_secret">f375616bdfb64d8e94a96f5aac727d43</string>
     <string name="APP_ID">449882188366752</string>
     <string name="callbackurl">http://fifteen-minutes.appspot.com/login</string>
     <string name="action_settings">Settings</string>
