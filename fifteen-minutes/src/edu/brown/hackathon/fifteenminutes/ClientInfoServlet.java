@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.utils.SystemProperty;
@@ -19,6 +20,7 @@ public class ClientInfoServlet extends HttpServlet {
   
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    bootstrapClientInfo();
     Entity result = getClientInfo();
     
     Gson gson = new Gson();
@@ -37,6 +39,20 @@ public class ClientInfoServlet extends HttpServlet {
     query.setFilter(new Query.FilterPredicate("environment", FilterOperator.EQUAL, environment));
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     return datastore.prepare(query).asSingleEntity();
+  }
+  
+  private static void bootstrapClientInfo() {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
+    Query query = new Query("ClientInfo");
+    if (datastore.prepare(query).countEntities(FetchOptions.Builder.withLimit(1000)) == 0) {
+      Entity bootstrapClientInfo = new Entity("ClientInfo");
+      bootstrapClientInfo.setProperty("environment", "development");
+      bootstrapClientInfo.setProperty("client_id", "de9f9c9633ed45cd8f7f123054b8bb62");
+      bootstrapClientInfo.setProperty("redirect_url", "http://localhost:8888/login");
+      bootstrapClientInfo.setProperty("client_secret", "a9fc7a5e2244421b804c970bb26903a4");
+      datastore.put(bootstrapClientInfo);
+    }
   }
   
   private static class ClientResource {

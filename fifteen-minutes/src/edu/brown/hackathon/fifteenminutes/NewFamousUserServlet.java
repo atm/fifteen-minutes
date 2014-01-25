@@ -19,23 +19,7 @@ import com.google.gson.Gson;
 @SuppressWarnings("serial")
 public class NewFamousUserServlet extends HttpServlet {
   
-  private static void bootstrapClientInfo() {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    
-    Query query = new Query("ClientInfo");
-    if (datastore.prepare(query).countEntities(FetchOptions.Builder.withLimit(1000)) == 0) {
-      Entity bootstrapClientInfo = new Entity("ClientInfo");
-      bootstrapClientInfo.setProperty("environment", "development");
-      bootstrapClientInfo.setProperty("client_id", "de9f9c9633ed45cd8f7f123054b8bb62");
-      bootstrapClientInfo.setProperty("redirect_url", "http://localhost:8888/login");
-      bootstrapClientInfo.setProperty("client_secret", "a9fc7a5e2244421b804c970bb26903a4");
-      datastore.put(bootstrapClientInfo);
-    }
-  }
-  
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    
-    bootstrapClientInfo();
     
     long oldFamousUser = IsFamousServlet.getUserIdOfFamousUser();
     long newFamousUser = selectRandomUserId(oldFamousUser);
