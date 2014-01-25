@@ -24,7 +24,7 @@
         <h2>fiftn</h2>
       </div>
       <div class="row">
-        <div class="col-sm-12 text-center" data-bind="if: accessToken && !initialized()">
+        <div class="col-sm-12 text-center" data-bind="ifnot: initialized">
           <img src="img/spinner.gif" />
         </div>
         <div class="col-sm-12" data-bind="if: initialized">
