@@ -1,6 +1,7 @@
 package edu.brown.hackathon.fifteenminutes;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javax.servlet.http.*;
 
@@ -19,8 +20,9 @@ public class UserServlet extends HttpServlet {
     String accessToken = req.getParameter("access_token");
     Key userKey = KeyFactory.createKey("User", id);
     Entity user = new Entity("User", userKey);
-    user.setProperty("accessToken", accessToken);
+    user.setProperty("access_token", accessToken);
     user.setProperty("user_id", id);
+    user.setProperty("rand_number", new Random().nextFloat());
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(user);
