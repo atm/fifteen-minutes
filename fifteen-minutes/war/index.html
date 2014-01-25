@@ -19,18 +19,31 @@
   </head>
 
   <body>
-    <div class="container" data-bind="if: initialized" id="Fiftn">
+    <div class="container" id="Fiftn">
       <div class="page-header">
         <h2>fiftn</h2>
       </div>
       <div class="row">
-        <div class="col-sm-12">
-          <p class="lead">
-            fiftn makes you famous on instagram for a day.
-          </p>
-          <p class="lead">
-            <a href="#" data-bind="click: openLogin">Login with Instagram</a>
-          </p>
+        <div class="col-sm-12 text-center" data-bind="if: accessToken && !initialized()">
+          <img src="img/spinner.gif" />
+        </div>
+        <div class="col-sm-12" data-bind="if: initialized">
+          <!-- ko if: accessToken -->
+            <p class="lead" data-bind="if: isUserFamous">
+              You're so famous!
+            </p>
+            <p class="lead" data-bind="ifnot: isUserFamous">
+              You aren't famous.  Try again later.
+            </p>
+          <!-- /ko -->
+          <!-- ko ifnot: accessToken -->
+            <p class="lead">
+              fiftn makes you famous on instagram for a day.
+            </p>
+            <p class="lead">
+              <a href="#" data-bind="click: openLogin">Login with Instagram</a>
+            </p>
+          <!-- /ko -->
         </div>
       </div>
     </div>

@@ -65,8 +65,6 @@ public class LoginServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(user);
     
-    resp.setContentType("application/json");
-    UserResource ur = new UserResource(id);
-    resp.getWriter().println(new Gson().toJson(ur));
+    resp.sendRedirect("/?access_token=" + token);
   }
 }
