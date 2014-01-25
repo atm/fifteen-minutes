@@ -19,6 +19,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>NewFamousUser</servlet-name>
 		<url-pattern>/new-famous-user</url-pattern>
+	<servlet>
+		<servlet-name>IsFamous</servlet-name>
+		<servlet-class>edu.brown.hackathon.fifteenminutes.IsFamousServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IsFamous</servlet-name>
+		<url-pattern>/is_famous</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
