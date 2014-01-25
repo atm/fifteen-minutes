@@ -1,27 +1,40 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
-
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="lib/ext/js/html5shiv.js"></script>
+      <script src="lib/ext/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="lib/js/jquery-1.10.2.min.js"></script>
+    <script src="lib/js/tiny-pubsub.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/underscore-min.js"></script>
+    <script src="lib/js/knockout-3.0.0.js"></script>
+
+    <title>fiftn</title>
   </head>
 
   <body>
-    <h1>Hello App Engine!</h1>
-	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="fifteen_minutes">Fifteen_minutes</a></td>
-      </tr>
-    </table>
+    <div class="container" data-bind="if: initialized" id="Fiftn">
+      <div class="page-header">
+        <h2>fiftn</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="lead">
+            fiftn makes you famous on instagram for a day.
+          </p>
+          <p class="lead">
+            <a href="#" data-bind="click: openLogin">Login with Instagram</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/fiftn.js"></script>
   </body>
 </html>
