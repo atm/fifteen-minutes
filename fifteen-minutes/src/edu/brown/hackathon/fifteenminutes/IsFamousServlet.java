@@ -17,23 +17,23 @@ import com.google.gson.Gson;
 @SuppressWarnings("serial")
 public class IsFamousServlet extends HttpServlet {
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    long userId = getUserIdOfFamousUser();
+    UserResource ur = getUserIdOfFamousUser();
     
-    UserResource ur = new UserResource(userId);
     Gson gson = new Gson();
     resp.setContentType("application/json");
     resp.getWriter().println(gson.toJson(ur));
   }
   
-  public static long getUserIdOfFamousUser() {
+  public static UserResource getUserIdOfFamousUser() {
     Query query = new Query("FamousUser");
     query.addSort("current_time", Query.SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1));
     if (results.size() < 1) {
-      return -1;
+      return new UserResource(-1, -1);
     } else {
-      return (Long)results.get(0).getProperty("user_id");
+      return new UserResource((Long)results.get(0).getProperty("new_user_id"),
+          (Long)results.get(0).getProperty("old_user_id"));
     }
   }
 }

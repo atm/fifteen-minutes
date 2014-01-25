@@ -26,22 +26,20 @@ public class NewFamousUserServlet extends HttpServlet {
   
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     
-    long oldFamousUser = IsFamousServlet.getUserIdOfFamousUser();
+    long oldFamousUser = IsFamousServlet.getUserIdOfFamousUser().getUserId();
     long newFamousUser = selectRandomUserId(oldFamousUser);
-    
-    // Make the Instagram API calls.
-    makeFamous(newFamousUser, oldFamousUser);
     
     // Set the new famous user in the DB.
     Entity famousUser = new Entity("FamousUser");
-    famousUser.setProperty("user_id", newFamousUser);
+    famousUser.setProperty("new_user_id", newFamousUser);
+    famousUser.setProperty("old_user_id", oldFamousUser);
     famousUser.setProperty("current_time", System.currentTimeMillis());
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(famousUser);
     
     resp.setContentType("application/json");
-    UserResource ur = new UserResource(newFamousUser);
+    UserResource ur = new UserResource(newFamousUser, oldFamousUser);
     resp.getWriter().println(new Gson().toJson(ur));
   }
   
@@ -53,24 +51,5 @@ public class NewFamousUserServlet extends HttpServlet {
     Entity result = results.get(new Random().nextInt(results.size()));
     return UserResource.parseUserIdFromEntity(result);
   }
-  
-  private static void makeFamous(long newFamousUser, long oldFamousUser) throws IOException {
-    Query query = new Query("User");
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1000));
-    log.info("====> going to make " + oldFamousUser + " unfamous");
-    log.info("====> going to make " + newFamousUser + " hella famous");
-    for (Entity result : results) {
-      String accessToken = (String) result.getProperty("access_token");
-      log.info("====> going to make requests using access token: " + accessToken);
-      String unfollowRequestString = "https://api.instagram.com/v1/users/" + oldFamousUser + "/relationship";
-      String followRequestString = "https://api.instagram.com/v1/users/" + newFamousUser + "/relationship";
-      Map<String, String> postParams = new HashMap<String, String>();
-      postParams.put("access_token", accessToken);
-      postParams.put("action", "unfollow");
-      log.info("====> unfollow result: " + HttpUtil.doHttpPost(unfollowRequestString, postParams));
-      postParams.put("action", "follow");
-      log.info("====> follow result: " + HttpUtil.doHttpPost(followRequestString, postParams));
-    }
-  }
+
 }

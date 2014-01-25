@@ -8,9 +8,15 @@ import com.google.appengine.api.datastore.Entity;
 public class UserResource {
  
   private long userId;
+  private long oldUserId;
 
-  public UserResource(long userId) {
+  public UserResource(long userId, long oldUserId) {
     this.userId = userId;
+    this.oldUserId = oldUserId;
+  }
+  
+  public long getUserId() {
+    return userId;
   }
   
   public static long parseUserIdFromEntity(Entity user) {
