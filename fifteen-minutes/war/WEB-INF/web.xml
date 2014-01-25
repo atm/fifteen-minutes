@@ -8,9 +8,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Fifteen_minutes</servlet-name>
 		<servlet-class>edu.brown.hackathon.fifteenminutes.Fifteen_minutesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>NewFamousUser</servlet-name>
+		<servlet-class>edu.brown.hackathon.fifteenminutes.NewFamousUserServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Fifteen_minutes</servlet-name>
 		<url-pattern>/fifteen_minutes</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewFamousUser</servlet-name>
+		<url-pattern>/new-famous-user</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
