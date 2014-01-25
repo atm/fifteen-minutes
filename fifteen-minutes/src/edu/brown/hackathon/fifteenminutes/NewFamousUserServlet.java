@@ -62,6 +62,7 @@ public class NewFamousUserServlet extends HttpServlet {
     log.info("====> going to make " + newFamousUser + " hella famous");
     for (Entity result : results) {
       String accessToken = (String) result.getProperty("access_token");
+      log.info("====> going to make requests using access token: " + accessToken);
       String unfollowRequestString = "https://api.instagram.com/v1/users/" + oldFamousUser + "/relationship";
       String followRequestString = "https://api.instagram.com/v1/users/" + newFamousUser + "/relationship";
       Map<String, String> postParams = new HashMap<String, String>();
