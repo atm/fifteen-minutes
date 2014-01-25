@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 public class UserServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    String id = req.getParameter("id");
+    Long id = Long.parseLong(req.getParameter("id"));
     String accessToken = req.getParameter("access_token");
     Key userKey = KeyFactory.createKey("User", id);
     Entity user = new Entity(userKey);
