@@ -18,7 +18,6 @@ import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
-import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
@@ -54,17 +53,12 @@ public class LoginServlet extends HttpServlet {
     String idPrefix = "\"id\":\"";
     int idStart = authRespBody.indexOf(idPrefix) + idPrefix.length();
     int idEnd = authRespBody.indexOf("\"", idStart);
-    int id = Integer.parseInt(authRespBody.substring(idStart, idEnd));
+    long id = Long.parseLong(authRespBody.substring(idStart, idEnd));
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Key userKey = KeyFactory.createKey("User", id);
-    try {
-      datastore.delete(userKey);
-    } catch (IllegalArgumentException ex) {
-      // do nothing
-    }
    
-    Entity user = new Entity("User", userKey);
+    Entity user = new Entity(userKey);
     user.setProperty("access_token", token);
     user.setProperty("user_id", id);
     user.setProperty("rand_number", new Random().nextFloat());
