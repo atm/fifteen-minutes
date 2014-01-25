@@ -24,10 +24,10 @@
         <h2>fiftn</h2>
       </div>
       <div class="row">
-        <div class="col-sm-12 text-center" data-bind="ifnot: initialized">
+        <div class="col-sm-12 text-center" data-bind="visible: !initialized()" style="display: none">
           <img src="img/spinner.gif" />
         </div>
-        <div class="col-sm-12" data-bind="if: initialized">
+        <div class="col-sm-12" data-bind="visible: initialized" style="display: none">
           <!-- ko if: accessToken -->
             <p class="lead" data-bind="if: isUserFamous">
               You're so famous!
