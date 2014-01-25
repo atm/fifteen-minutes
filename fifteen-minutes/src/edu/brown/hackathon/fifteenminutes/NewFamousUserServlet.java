@@ -25,8 +25,10 @@ public class NewFamousUserServlet extends HttpServlet {
     Query query = new Query("ClientInfo");
     if (datastore.prepare(query).countEntities(FetchOptions.Builder.withLimit(1000)) == 0) {
       Entity bootstrapClientInfo = new Entity("ClientInfo");
-      bootstrapClientInfo.setProperty("client_id", "boot");
-      bootstrapClientInfo.setProperty("client_secret", "strap");
+      bootstrapClientInfo.setProperty("environment", "development");
+      bootstrapClientInfo.setProperty("client_id", "de9f9c9633ed45cd8f7f123054b8bb62");
+      bootstrapClientInfo.setProperty("redirect_url", "http://localhost:8888/login");
+      bootstrapClientInfo.setProperty("client_secret", "a9fc7a5e2244421b804c970bb26903a4");
       datastore.put(bootstrapClientInfo);
     }
   }
