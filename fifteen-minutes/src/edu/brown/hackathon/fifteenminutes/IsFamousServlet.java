@@ -30,6 +30,10 @@ public class IsFamousServlet extends HttpServlet {
     query.addSort("current_time", Query.SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(1));
-    return (Long)results.get(0).getProperty("user_id");
+    if (results.size() < 1) {
+      return -1;
+    } else {
+      return (Long)results.get(0).getProperty("user_id");
+    }
   }
 }
