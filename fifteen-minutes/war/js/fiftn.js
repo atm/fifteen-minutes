@@ -14,7 +14,7 @@ var Fiftn = function(options) {
     // Will be initialized when loaded.
     authUrl;
 
-  viewModel.accessToken = options.accessToken;
+  viewModel.accessToken = ko.observable(options.accessToken);
 
   viewModel.infoLoaded = ko.observable(false);
   viewModel.famousUser = ko.observable();
@@ -23,7 +23,7 @@ var Fiftn = function(options) {
   viewModel.initialized = ko.computed(function() {
     var initialized = viewModel.infoLoaded();
 
-    if (viewModel.accessToken) {
+    if (viewModel.accessToken()) {
       initialized = initialized && viewModel.famousUser() &&
         viewModel.currentUser();
     }
@@ -32,7 +32,7 @@ var Fiftn = function(options) {
   });
 
   viewModel.isUserFamous = ko.computed(function() {
-    if (!viewModel.accessToken || !viewModel.initialized()) {
+    if (!viewModel.accessToken() || !viewModel.initialized()) {
       return false;
     }
 
@@ -46,12 +46,12 @@ var Fiftn = function(options) {
     viewModel.infoLoaded(true);
   });
 
-  if (viewModel.accessToken) {
+  if (viewModel.accessToken()) {
     $.getJSON(Requests.IS_FAMOUS, function(famousUser) {
       viewModel.famousUser(famousUser);
     });
 
-    $.getJSON(Requests.buildCurrentUserUrl(Requests.API_USER, viewModel.accessToken), function(user) {
+    $.getJSON(Requests.buildCurrentUserUrl(Requests.API_USER, viewModel.accessToken()), function(user) {
       viewModel.currentUser(user);
     });
   }
