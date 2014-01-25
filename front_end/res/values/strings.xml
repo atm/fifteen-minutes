@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">InstaFamous</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="login">Login To Instagram</string>
+    <string name="instagram_id">eaae27bb723146f2817f91483e21cd23</string> 
+    <string name="instagram_secret">71feae5ed7e94ababc7fe5d27555feee</string>
+    <string name="APP_ID">449882188366752</string>
+    <string name="callbackurl">http://varundroid.blog.com</string>
+    <string name="title_activity_are_you_famous">Who\'s famous!?!?!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
