@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">InstaFamous</string>
+    <string name="app_name">FifteenMinutes</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     
@@ -13,7 +13,11 @@
     <string name="instagram_secret">d5bd4738002347bba47ff2ff7d851f2f</string>
     <string name="APP_ID">449882188366752</string>
     <string name="callbackurl">http://fifteen-minutes.appspot.com/login</string>
-    <string name="title_activity_are_you_famous">Who\'s famous!?!?!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Are you famous page -->
+    <string name="title_activity_are_you_famous">Who\'s famous!?!?!</string>
+    <string name="label_is_famous">is famous!</string>
+    <string name="profile_pic_description">The famous user\'s profile pic. Dashing.</string>
 
 </resources>

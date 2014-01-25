@@ -2,6 +2,7 @@ package com.example.fifteenminutes;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -58,38 +59,33 @@ public class AreYouFamousActivity extends Activity
 //    	Log.v("Testing", profilePictureURL);
 //    	Log.v("Testing", username);
         
-        Handler refresh = new Handler(Looper.getMainLooper());
-        refresh.post(new Runnable() {
-            public void run()
-            {
-                setViews();
-            }
-        });
+//        Handler refresh = new Handler(Looper.getMainLooper());
+//        refresh.post(new Runnable() {
+//            public void run()
+//            {
+//                setViews();
+//            }
+//        });
     }
 	
-	public void setViews()
+	public static Bitmap getBitmapFromURL(String src)
 	{
-    	/**
-         * Updating parsed JSON data into ImageView and TextView
-         * */
-        // SessionStore sessionStore = new SessionStore(getApplicationContext());
-    	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
-    	try
-    	{
-    		ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
-    		Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(profilePictureURL).getContent());
-    		i.setImageBitmap(bitmap);
-    	} catch (MalformedURLException e)
-    	{
-    		e.printStackTrace();
-    	}
-    	catch (IOException e)
-    	{
-    		e.printStackTrace();
-    	}
-    	// set text
-        TextView usernameView = (TextView) findViewById(R.id.username);
-        usernameView.setText(username);
+	    try
+	    {
+	        URL url = new URL(src);
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	        connection.setDoInput(true);
+	        connection.connect();
+	        InputStream input = connection.getInputStream();
+	        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+	        return myBitmap;
+	    }
+	    catch (IOException e)
+	    {
+	        e.printStackTrace();
+	        Log.v("Testing", "something went wrong");
+	        return null;
+	    }
 	}
 
     @Override
@@ -191,7 +187,7 @@ public class AreYouFamousActivity extends Activity
     			try {
     				JSONObject userInfo = jsonObj.getJSONObject(KEY_JSON_NODE); // get "data" note
     				username = userInfo.getString(KEY_USERNAME);
-    				
+
     				profilePictureURL = userInfo.getString(KEY_PICTURE);
     				Log.v("Testing", profilePictureURL);
     				
@@ -207,43 +203,55 @@ public class AreYouFamousActivity extends Activity
         protected void onPostExecute(Void result)
         {
             Log.v("Testing", "AreYouFamousActivity onPostExecute");
-//            new SetViews().execute();
+        
+        	/**
+             * Updating parsed JSON data into ImageView and TextView
+             * */
+        	// set text
+            TextView usernameView = (TextView) findViewById(R.id.username);
+            usernameView.setText(username);
+            // SessionStore sessionStore = new SessionStore(getApplicationContext());
+        	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
+       		ImageView profilePicture = (ImageView)findViewById(R.id.profile_picture_view);
+       		new DownloadImageTask(profilePicture).execute(profilePictureURL);
         }
     }
-//    
-//    /**
-//     * Async task class to get json by making HTTP call
-//     * */
-//    private class SetViews extends AsyncTask<String, Void, Void>
-//    {
-//        @Override
-//        protected Void doInBackground(String ... args)
-//        {
-//        	Log.v("Testing", profilePictureURL);
-//        	Log.v("Testing", username);
-//        	/**
-//             * Updating parsed JSON data into ImageView and TextView
-//             * */
-//            // SessionStore sessionStore = new SessionStore(getApplicationContext());
-//        	// set image: http://stackoverflow.com/questions/3118691/android-make-an-image-at-a-url-equal-to-imageviews-image
-//        	try
-//        	{
-//        		ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
-//        		Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(profilePictureURL).getContent());
-//        		i.setImageBitmap(bitmap);
-//        	} catch (MalformedURLException e)
-//        	{
-//        		e.printStackTrace();
-//        	}
-//        	catch (IOException e)
-//        	{
-//        		e.printStackTrace();
-//        	}
-//        	// set text
-//            TextView usernameView = (TextView) findViewById(R.id.username);
-//            usernameView.setText(username);
-//        
-//            return null;
-//        }
-//    }
+
+    /**
+     * DownloadImageTask
+     */
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+            pDialog.show();
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+              InputStream in = new java.net.URL(urldisplay).openStream();
+              mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.v("Testing", "BitMap failed");
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        @Override 
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            pDialog.dismiss();
+            bmImage.setImageBitmap(result);
+        }
+      }
 }

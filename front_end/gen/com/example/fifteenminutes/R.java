@@ -26,8 +26,9 @@ public final class R {
     public static final class drawable {
         public static final int custom_button=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int logo=0x7f020002;
-        public static final int radial_gradient_background=0x7f020003;
+        public static final int icon=0x7f020002;
+        public static final int logo=0x7f020003;
+        public static final int radial_gradient_background=0x7f020004;
     }
     public static final class id {
         public static final int action_settings=0x7f090006;
@@ -48,18 +49,22 @@ public final class R {
     }
     public static final class string {
         public static final int APP_ID=0x7f060007;
-        public static final int action_settings=0x7f06000a;
+        public static final int action_settings=0x7f060009;
         public static final int app_name=0x7f060000;
         public static final int callbackurl=0x7f060008;
         public static final int hello_world=0x7f060001;
         public static final int instagram_id=0x7f060005;
         public static final int instagram_secret=0x7f060006;
+        public static final int label_is_famous=0x7f06000b;
         /**  Login page 
          */
         public static final int login=0x7f060003;
         public static final int logo_description=0x7f060004;
         public static final int menu_settings=0x7f060002;
-        public static final int title_activity_are_you_famous=0x7f060009;
+        public static final int profile_pic_description=0x7f06000c;
+        /**  Are you famous page 
+         */
+        public static final int title_activity_are_you_famous=0x7f06000a;
     }
     public static final class style {
         /** 
@@ -76,7 +81,11 @@ public final class R {
         /**  Application theme. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int BlueFont=0x7f070005;
         public static final int Button=0x7f070002;
+        public static final int LargeBlueFont=0x7f070006;
+        public static final int LargeOrangeFont=0x7f070007;
+        public static final int WhiteFont=0x7f070004;
         public static final int button_text=0x7f070003;
     }
 }

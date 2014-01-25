@@ -74,7 +74,8 @@ public class JSONParser
 	        {
 	            HttpPost httpPost = new HttpPost(url);
 	            // adding post params
-	            if (params != null) {
+	            if (params != null)
+	            {
 	                httpPost.setEntity(new UrlEncodedFormEntity(params));
 	            }
 	 
